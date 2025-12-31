@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>United Sporting Club | Talent Agency</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">USC <span>TALENT AGENCY</span></div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#talent">Elite Talent</a></li>
+                <li><a href="#contact" class="btn-gold">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <div class="hero-content">
+            <h1>Bridging African Talent to the <span class="text-gold">World Stage</span></h1>
+            <p>Integrity. Transparency. Elite Performance.</p>
+            <div class="hero-btns">
+                <a href="#talent" class="btn-main">View Prospects</a>
+                <a href="#contact" class="btn-outline">Partner With Us</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="talent">
+        <h2 class="section-title">Verified Prospects</h2>
+        <div id="player-grid" class="grid">
+            <div class="card">
+                <h3>Loading Talent...</h3>
+                <p>Connecting to USC Database.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="contact-container">
+            <h2 class="section-title">Contact Agency Manager</h2>
+            <form id="contact-form">
+                <input type="text" id="clientName" placeholder="Your Name / Club Name" required>
+                <input type="email" id="clientEmail" placeholder="Your Email" required>
+                <textarea id="message" placeholder="Inquiry details (Trials, Scouting, etc.)" required></textarea>
+                <button type="submit" class="btn-main">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 United Sporting Club Talent Agency. Managed in Ghana.</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

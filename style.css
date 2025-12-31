@@ -1,0 +1,167 @@
+:root {
+    --primary-blue: #050a1a; /* Darker Blue-Black */
+    --gold: #c5a028;
+    --yellow: #ffcc00;
+    --white: #ffffff;
+    --gray: #f8f9fa;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--white);
+    color: var(--primary-blue);
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+header {
+    background: var(--primary-blue);
+    padding: 1rem 5%;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 2px solid var(--gold);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: var(--white);
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--yellow);
+    font-weight: bold;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+nav ul li a:hover {
+    color: var(--yellow);
+}
+
+#hero {
+    height: 100vh;
+    background: linear-gradient(rgba(5, 10, 26, 0.85), rgba(5, 10, 26, 0.85)), 
+                url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=2070') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--white);
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+}
+
+.text-gold { color: var(--gold); }
+
+.hero-btns { margin-top: 30px; }
+
+.btn-main {
+    background: var(--yellow);
+    color: var(--primary-blue);
+    padding: 15px 35px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.btn-main:hover { background: var(--white); }
+
+.btn-outline {
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    padding: 13px 35px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+#talent, #contact {
+    padding: 100px 10%;
+}
+
+#talent { background: var(--gray); }
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 2.5rem;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: var(--white);
+    padding: 30px;
+    border-left: 5px solid var(--primary-blue);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.card h3 { color: var(--gold); margin-bottom: 10px; }
+
+#contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#contact-form input, #contact-form textarea {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+footer {
+    background: var(--primary-blue);
+    color: var(--white);
+    text-align: center;
+    padding: 30px;
+    font-size: 0.8rem;
+    border-top: 1px solid #222;
+}
