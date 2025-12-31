@@ -7,58 +7,21 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #f0f2f5; }
-        .admin-container { max-width: 600px; margin: 40px auto; padding: 20px; }
-        
-        .admin-box { 
-            background: #f4f4f4; 
-            padding: 40px; 
-            border-top: 5px solid #d4af37; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
+        .admin-container { max-width: 700px; margin: 40px auto; padding: 20px; }
+        .admin-box, .inbox-box, .manage-box { 
+            background: #ffffff; padding: 30px; border-top: 5px solid #d4af37; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; 
         }
-        
-        .admin-box h2 { 
-            font-family: 'Oswald', sans-serif; 
-            margin-bottom: 20px; 
-            text-transform: uppercase; 
-            color: #050a1a;
-        }
-
+        .manage-box { border-top-color: #050a1a; }
+        h2 { font-family: 'Oswald', sans-serif; text-transform: uppercase; color: #050a1a; margin-bottom: 20px; }
         input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
-        
-        .status-msg { margin-top: 15px; font-weight: bold; font-size: 0.9rem; }
-
-        /* Inbox Styling */
-        .inbox-box { 
-            background: #ffffff; 
-            padding: 30px; 
-            border-top: 5px solid #050a1a; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .message-card { 
-            background: #f9f9f9; 
-            padding: 15px; 
-            margin-top: 15px; 
-            border-left: 4px solid #d4af37;
-            border-radius: 4px;
-        }
-
-        .message-card h4 { margin: 0 0 5px 0; color: #050a1a; }
-        .message-card p { margin: 5px 0; font-size: 0.9rem; }
+        .btn-view, .btn-delete { border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
+        .btn-view { background: #050a1a; color: white; width: 100%; }
+        .btn-delete { background: #ff4d4d; color: white; font-size: 0.8rem; margin-top: 10px; }
+        .btn-delete:hover { background: #cc0000; }
+        .item-card { background: #f9f9f9; padding: 15px; margin-top: 15px; border-left: 4px solid #d4af37; border-radius: 4px; position: relative; }
         .msg-date { font-size: 0.7rem; color: #777; margin-top: 10px; }
-        
-        .btn-view {
-            background: #050a1a;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -68,38 +31,34 @@
             <h2>Add New Elite Talent</h2>
             <form id="player-form">
                 <input type="text" id="playerName" placeholder="Player Full Name" required>
-                <input type="text" id="playerPosition" placeholder="Position (e.g. Center Forward)" required>
-                
+                <input type="text" id="playerPosition" placeholder="Position" required>
                 <select id="playerAge">
                     <option value="U17">U17 (Verified)</option>
                     <option value="U19">U19 (Verified)</option>
                     <option value="U22">U22 (Verified)</option>
-                    <option value="Senior">Senior Pro</option>
                 </select>
-
-                <input type="text" id="playerImage" placeholder="Image URL (or leave blank)">
-                
-                <p><small>Security Authorization:</small></p>
+                <input type="text" id="playerImage" placeholder="Image URL (Optional)">
                 <input type="password" id="adminKey" placeholder="Enter Secret Key" required>
-                
                 <button type="submit" class="btn-main" style="width: 100%;">Upload to USC Roster</button>
             </form>
-            <div id="status" class="status-msg"></div>
+            <div id="status"></div>
+        </div>
+
+        <div class="manage-box">
+            <h2>Manage Current Roster</h2>
+            <button id="btn-load-roster" class="btn-view">Load / Refresh Roster</button>
+            <div id="roster-list"></div>
         </div>
 
         <div class="inbox-box">
-            <h2 style="font-family: 'Oswald'; text-transform: uppercase;">Inquiry Inbox</h2>
-            <p style="font-size: 0.8rem; color: #666;">Enter key below to load messages from the database.</p>
+            <h2>Inquiry Inbox</h2>
             <input type="password" id="inboxKey" placeholder="Enter Secret Key to Read">
             <button id="btn-view-messages" class="btn-view">View New Messages</button>
-            
-            <div id="message-list">
-                </div>
+            <div id="message-list"></div>
         </div>
 
-        <br>
-        <div style="text-align: center;">
-            <a href="index.html" style="text-decoration: none; color: #050a1a; font-weight: bold;">← Back to Public Website</a>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="index.html" style="text-decoration: none; color: #050a1a; font-weight: bold;">← Back to Website</a>
         </div>
     </div>
 
