@@ -68,7 +68,8 @@ nav ul li a:hover {
     color: var(--yellow);
 }
 
-#hero {
+/* Hero Section */
+#home {
     height: 100vh;
     background: linear-gradient(rgba(5, 10, 26, 0.85), rgba(5, 10, 26, 0.85)), 
                 url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=2070') center/cover;
@@ -99,6 +100,7 @@ nav ul li a:hover {
     cursor: pointer;
     border-radius: 4px;
     transition: 0.3s;
+    display: inline-block;
 }
 
 .btn-main:hover { background: var(--white); }
@@ -111,13 +113,13 @@ nav ul li a:hover {
     font-weight: bold;
     border-radius: 4px;
     margin-left: 10px;
+    display: inline-block;
 }
 
-#talent, #contact {
+/* Universal Section Styling */
+#services, #talent, #contact {
     padding: 100px 10%;
 }
-
-#talent { background: var(--gray); }
 
 .section-title {
     text-align: center;
@@ -127,10 +129,45 @@ nav ul li a:hover {
     text-transform: uppercase;
 }
 
+/* Grid System */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
+}
+
+/* Services Specific Styling */
+#services {
+    background: var(--white);
+}
+
+.service-card {
+    text-align: center;
+    border-top: 4px solid var(--gold);
+    border-left: none !important; /* Overriding general card style */
+    padding: 40px 20px;
+    transition: transform 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+}
+
+.service-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.service-card h3 {
+    font-family: 'Oswald', sans-serif;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+/* Talent Specific Styling */
+#talent { 
+    background: var(--gray); 
 }
 
 .card {
@@ -142,6 +179,7 @@ nav ul li a:hover {
 
 .card h3 { color: var(--gold); margin-bottom: 10px; }
 
+/* Contact Form */
 #contact-form {
     max-width: 600px;
     margin: 0 auto;
@@ -155,8 +193,15 @@ nav ul li a:hover {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1rem;
+    font-family: 'Inter', sans-serif;
 }
 
+#contact-form textarea {
+    height: 150px;
+    resize: none;
+}
+
+/* Footer */
 footer {
     background: var(--primary-blue);
     color: var(--white);
@@ -164,4 +209,11 @@ footer {
     padding: 30px;
     font-size: 0.8rem;
     border-top: 1px solid #222;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-content h1 { font-size: 2.5rem; }
+    nav ul { display: none; } /* Consider adding a mobile menu later */
+    .btn-outline { margin-left: 0; margin-top: 10px; }
 }
