@@ -32,7 +32,7 @@ window.deleteItem = async (collectionName, id) => {
     }
 };
 
-// --- 1. ADD PLAYER (UPDATED WITH CLUB FIELD) ---
+// --- 1. ADD PLAYER (REMOVED IMAGE URL LOGIC) ---
 document.getElementById('player-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (document.getElementById('adminKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
@@ -41,30 +41,37 @@ document.getElementById('player-form').addEventListener('submit', async (e) => {
         await addDoc(collection(db, "players"), {
             name: document.getElementById('playerName').value,
             position: document.getElementById('playerPosition').value,
-            club: document.getElementById('playerClub').value, // NEW FIELD
+            club: document.getElementById('playerClub').value,
             age: document.getElementById('playerAge').value,
-            imageUrl: document.getElementById('playerImage').value || "https://via.placeholder.com/150",
+            // Removed imageUrl line here
             timestamp: new Date()
         });
         alert("✅ Added!");
         location.reload();
-    } catch (e) { alert("Error."); }
+    } catch (e) { 
+        console.error(e);
+        alert("Error adding player. Make sure all fields are filled."); 
+    }
 });
 
-// --- 2. LOAD ROSTER (UPDATED TO SHOW CLUB) ---
+// --- 2. LOAD ROSTER ---
 document.getElementById('btn-load-roster').addEventListener('click', async () => {
     const list = document.getElementById('roster-list');
     list.innerHTML = "Loading...";
-    const snap = await getDocs(query(collection(db, "players"), orderBy("timestamp", "desc")));
-    list.innerHTML = "";
-    snap.forEach(d => {
-        const p = d.data();
-        list.innerHTML += `<div class="item-card">
-            <h4>${p.name}</h4>
-            <p style="font-size: 0.85rem; color: #555;">Club: ${p.club || 'N/A'} | ${p.age}</p>
-            <button class="btn-delete" onclick="deleteItem('players', '${d.id}')">Remove Player</button>
-        </div>`;
-    });
+    try {
+        const snap = await getDocs(query(collection(db, "players"), orderBy("timestamp", "desc")));
+        list.innerHTML = "";
+        snap.forEach(d => {
+            const p = d.data();
+            list.innerHTML += `<div class="item-card">
+                <h4>${p.name}</h4>
+                <p style="font-size: 0.85rem; color: #555;">Club: ${p.club || 'N/A'} | ${p.age}</p>
+                <button class="btn-delete" onclick="deleteItem('players', '${d.id}')">Remove Player</button>
+            </div>`;
+        });
+    } catch (e) {
+        list.innerHTML = "Error loading roster.";
+    }
 });
 
 // --- 3. VIEW MESSAGES ---
@@ -72,14 +79,19 @@ document.getElementById('btn-view-messages').addEventListener('click', async () 
     if (document.getElementById('inboxKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
     const list = document.getElementById('message-list');
     list.innerHTML = "Loading...";
-    const snap = await getDocs(query(collection(db, "inquiries"), orderBy("timestamp", "desc")));
-    list.innerHTML = "";
-    snap.forEach(d => {
-        const m = d.data();
-        list.innerHTML += `<div class="item-card">
-            <h4>From: ${m.name}</h4>
-            <p>${m.message}</p>
-            <button class="btn-delete" onclick="deleteItem('inquiries', '${d.id}')">Delete Message</button>
-        </div>`;
-    });
+    try {
+        const snap = await getDocs(query(collection(db, "inquiries"), orderBy("timestamp", "desc")));
+        list.innerHTML = "";
+        snap.forEach(d => {
+            const m = d.data();
+            list.innerHTML += `<div class="item-card">
+                <h4>From: ${m.name}</h4>
+                <p>${m.message}</p>
+                <p style="font-size: 0.7rem; color: #888;">${m.email}</p>
+                <button class="btn-delete" onclick="deleteItem('inquiries', '${d.id}')">Delete Message</button>
+            </div>`;
+        });
+    } catch (e) {
+        list.innerHTML = "Error loading messages.";
+    }
 });

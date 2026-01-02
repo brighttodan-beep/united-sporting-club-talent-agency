@@ -39,13 +39,12 @@ if (contactForm) {
     });
 }
 
-// --- 2. FETCH AND DISPLAY PLAYERS (INCLUDES CLUB) ---
+// --- 2. FETCH AND DISPLAY PLAYERS (WITH UNKNOWN PASSPORT ICON) ---
 async function loadPlayers() {
     const playerGrid = document.getElementById('player-grid');
     if (!playerGrid) return;
 
     try {
-        // We order by timestamp so the newest players show up first
         const q = query(collection(db, "players"), orderBy("timestamp", "desc"));
         const querySnapshot = await getDocs(q);
         
@@ -54,24 +53,33 @@ async function loadPlayers() {
             return;
         }
 
-        playerGrid.innerHTML = ""; // Clear existing content
+        playerGrid.innerHTML = ""; 
 
         querySnapshot.forEach((doc) => {
             const player = doc.data();
             
-            // Image fallback: Use a default placeholder if no URL is provided
-            const photoUrl = player.imageUrl || "https://via.placeholder.com/300x400?text=USC+Prospect";
+            // Professional silhouette icon for all players
+            const passportIcon = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
             playerGrid.innerHTML += `
-                <div class="card talent-card">
-                    <div class="player-image-container" style="margin-bottom: 15px; overflow: hidden; border-radius: 4px;">
-                        <img src="${photoUrl}" alt="${player.name}" style="width: 100%; height: 300px; object-fit: cover; display: block;">
+                <div class="card talent-card" style="text-align: center; border-bottom: 4px solid var(--gold);">
+                    <div class="icon-bg" style="background: #f4f4f4; width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; border: 2px solid #eee;">
+                        <img src="${passportIcon}" alt="Profile" style="width: 70px; opacity: 0.4;">
                     </div>
-                    <h3 style="color: var(--gold); font-family: 'Oswald', sans-serif; text-transform: uppercase;">${player.name || 'Elite Talent'}</h3>
-                    <p><strong>Position:</strong> ${player.position || 'N/A'}</p>
-                    <p><strong>Current Club:</strong> ${player.club || 'Free Agent'}</p>
-                    <p><strong>Category:</strong> ${player.age || 'U17'}</p>
-                    <p style="color: green; font-weight: bold; font-size: 0.8rem; margin-top: 5px;">✓ USC VERIFIED</p>
+                    
+                    <h3 style="color: var(--primary-blue); font-family: 'Oswald', sans-serif; text-transform: uppercase; margin-bottom: 10px;">
+                        ${player.name || 'Elite Talent'}
+                    </h3>
+                    
+                    <div style="text-align: left; background: #fafafa; padding: 10px; border-radius: 4px;">
+                        <p style="margin: 5px 0;"><strong>POS:</strong> ${player.position || 'N/A'}</p>
+                        <p style="margin: 5px 0;"><strong>CLUB:</strong> ${player.club || 'Free Agent'}</p>
+                        <p style="margin: 5px 0;"><strong>CAT:</strong> ${player.age || 'U17'}</p>
+                    </div>
+
+                    <p style="color: #c5a028; font-weight: bold; font-size: 0.75rem; margin-top: 15px; letter-spacing: 1px;">
+                        ✓ USC VERIFIED PROSPECT
+                    </p>
                 </div>
             `;
         });
