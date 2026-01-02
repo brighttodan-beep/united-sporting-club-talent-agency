@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Your exact Firebase configuration
 const firebaseConfig = {
@@ -15,7 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Function to handle the contact form submission
+// --- 1. HANDLE CONTACT FORM ---
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
@@ -39,28 +39,46 @@ if (contactForm) {
     });
 }
 
-// Function to fetch and display players (example fetch)
+// --- 2. FETCH AND DISPLAY PLAYERS (INCLUDES CLUB) ---
 async function loadPlayers() {
     const playerGrid = document.getElementById('player-grid');
-    const querySnapshot = await getDocs(collection(db, "players"));
-    
-    if (querySnapshot.empty) {
-        playerGrid.innerHTML = "<p>Currently scouting new talent. Check back soon.</p>";
-        return;
-    }
+    if (!playerGrid) return;
 
-    playerGrid.innerHTML = ""; // Clear loader
-    querySnapshot.forEach((doc) => {
-        const player = doc.data();
-        playerGrid.innerHTML += `
-            <div class="card">
-                <h3>${player.name || 'Elite Talent'}</h3>
-                <p><strong>Position:</strong> ${player.position || 'Forward'}</p>
-                <p><strong>Age:</strong> ${player.age || 'U17'}</p>
-                <p><strong>Status:</strong> Verified</p>
-            </div>
-        `;
-    });
+    try {
+        // We order by timestamp so the newest players show up first
+        const q = query(collection(db, "players"), orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(q);
+        
+        if (querySnapshot.empty) {
+            playerGrid.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Currently scouting new talent. Check back soon.</p>";
+            return;
+        }
+
+        playerGrid.innerHTML = ""; // Clear existing content
+
+        querySnapshot.forEach((doc) => {
+            const player = doc.data();
+            
+            // Image fallback: Use a default placeholder if no URL is provided
+            const photoUrl = player.imageUrl || "https://via.placeholder.com/300x400?text=USC+Prospect";
+
+            playerGrid.innerHTML += `
+                <div class="card talent-card">
+                    <div class="player-image-container" style="margin-bottom: 15px; overflow: hidden; border-radius: 4px;">
+                        <img src="${photoUrl}" alt="${player.name}" style="width: 100%; height: 300px; object-fit: cover; display: block;">
+                    </div>
+                    <h3 style="color: var(--gold); font-family: 'Oswald', sans-serif; text-transform: uppercase;">${player.name || 'Elite Talent'}</h3>
+                    <p><strong>Position:</strong> ${player.position || 'N/A'}</p>
+                    <p><strong>Current Club:</strong> ${player.club || 'Free Agent'}</p>
+                    <p><strong>Category:</strong> ${player.age || 'U17'}</p>
+                    <p style="color: green; font-weight: bold; font-size: 0.8rem; margin-top: 5px;">✓ USC VERIFIED</p>
+                </div>
+            `;
+        });
+    } catch (error) {
+        console.error("Error loading players:", error);
+        playerGrid.innerHTML = "<p>Error loading roster. Please refresh.</p>";
+    }
 }
 
 loadPlayers();

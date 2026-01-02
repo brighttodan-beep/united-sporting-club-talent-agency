@@ -25,14 +25,14 @@ window.deleteItem = async (collectionName, id) => {
         try {
             await deleteDoc(doc(db, collectionName, id));
             alert("Deleted successfully.");
-            location.reload(); // Refresh to show changes
+            location.reload(); 
         } catch (e) {
             alert("Error deleting. Check Firebase Rules.");
         }
     }
 };
 
-// --- 1. ADD PLAYER ---
+// --- 1. ADD PLAYER (UPDATED WITH CLUB FIELD) ---
 document.getElementById('player-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (document.getElementById('adminKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
@@ -41,6 +41,7 @@ document.getElementById('player-form').addEventListener('submit', async (e) => {
         await addDoc(collection(db, "players"), {
             name: document.getElementById('playerName').value,
             position: document.getElementById('playerPosition').value,
+            club: document.getElementById('playerClub').value, // NEW FIELD
             age: document.getElementById('playerAge').value,
             imageUrl: document.getElementById('playerImage').value || "https://via.placeholder.com/150",
             timestamp: new Date()
@@ -50,7 +51,7 @@ document.getElementById('player-form').addEventListener('submit', async (e) => {
     } catch (e) { alert("Error."); }
 });
 
-// --- 2. LOAD ROSTER TO MANAGE ---
+// --- 2. LOAD ROSTER (UPDATED TO SHOW CLUB) ---
 document.getElementById('btn-load-roster').addEventListener('click', async () => {
     const list = document.getElementById('roster-list');
     list.innerHTML = "Loading...";
@@ -59,7 +60,8 @@ document.getElementById('btn-load-roster').addEventListener('click', async () =>
     snap.forEach(d => {
         const p = d.data();
         list.innerHTML += `<div class="item-card">
-            <h4>${p.name} (${p.age})</h4>
+            <h4>${p.name}</h4>
+            <p style="font-size: 0.85rem; color: #555;">Club: ${p.club || 'N/A'} | ${p.age}</p>
             <button class="btn-delete" onclick="deleteItem('players', '${d.id}')">Remove Player</button>
         </div>`;
     });
