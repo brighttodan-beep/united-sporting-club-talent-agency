@@ -53,7 +53,7 @@ document.getElementById('player-form').addEventListener('submit', async (e) => {
     }
 });
 
-// --- 2. ADD TRIAL / TOUR (NEW) ---
+// --- 2. ADD TRIAL / TOUR (WITH REGISTRATION LINK) ---
 document.getElementById('event-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (document.getElementById('eventAdminKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
@@ -63,13 +63,14 @@ document.getElementById('event-form').addEventListener('submit', async (e) => {
             title: document.getElementById('eventTitle').value,
             location: document.getElementById('eventLocation').value,
             date: document.getElementById('eventDate').value,
+            link: document.getElementById('eventLink').value, // Captured from the new HTML input
             timestamp: new Date()
         });
         alert("✅ Event Published Successfully!");
         location.reload();
     } catch (e) {
         console.error(e);
-        alert("Error publishing event.");
+        alert("Error publishing event. Make sure the 'eventLink' field exists in your HTML.");
     }
 });
 
@@ -93,7 +94,7 @@ document.getElementById('btn-load-roster').addEventListener('click', async () =>
     }
 });
 
-// --- 4. LOAD EVENTS (NEW) ---
+// --- 4. LOAD EVENTS ---
 document.getElementById('btn-load-events').addEventListener('click', async () => {
     const list = document.getElementById('events-list');
     list.innerHTML = "Loading...";
@@ -105,6 +106,7 @@ document.getElementById('btn-load-events').addEventListener('click', async () =>
             list.innerHTML += `<div class="item-card" style="border-left-color: #28a745;">
                 <h4>${ev.title}</h4>
                 <p style="font-size: 0.85rem; color: #555;">📍 ${ev.location} | 📅 ${ev.date}</p>
+                <p style="font-size: 0.7rem; color: #888; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">🔗 ${ev.link || 'No link provided'}</p>
                 <button class="btn-delete" onclick="deleteItem('events', '${d.id}')">Remove Event</button>
             </div>`;
         });

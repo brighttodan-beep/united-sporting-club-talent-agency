@@ -14,7 +14,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; 
         }
         .manage-box { border-top-color: #050a1a; }
-        .event-box { border-top-color: #28a745; } /* Green for events */
+        .event-box { border-top-color: #28a745; }
         h2 { font-family: 'Oswald', sans-serif; text-transform: uppercase; color: #050a1a; margin-bottom: 20px; }
         input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
         .btn-view, .btn-delete { border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
@@ -35,26 +35,24 @@
                 <input type="text" id="playerName" placeholder="Player Full Name" required>
                 <input type="text" id="playerPosition" placeholder="Position (e.g. Center Forward)" required>
                 <input type="text" id="playerClub" placeholder="Current Club / Academy" required>
-                
                 <select id="playerAge">
                     <option value="U17">U17 (Verified)</option>
                     <option value="U19">U19 (Verified)</option>
                     <option value="U22">U22 (Verified)</option>
                     <option value="Senior">Senior Pro</option>
                 </select>
-
                 <input type="password" id="adminKey" placeholder="Enter Secret Key" required>
                 <button type="submit" class="btn-main" style="width: 100%;">Upload to USC Roster</button>
             </form>
-            <div id="status"></div>
         </div>
 
         <div class="event-box">
             <h2>Post Trial or Tour</h2>
             <form id="event-form">
                 <input type="text" id="eventTitle" placeholder="Event Name (e.g. Europe Showcase Tour)" required>
-                <input type="text" id="eventLocation" placeholder="Location (e.g. Accra, Ghana or Spain)" required>
+                <input type="text" id="eventLocation" placeholder="Location (e.g. Accra, Ghana)" required>
                 <input type="text" id="eventDate" placeholder="Date (e.g. October 2025)" required>
+                <input type="url" id="eventLink" placeholder="Registration Link (WhatsApp or Google Form)" required>
                 <input type="password" id="eventAdminKey" placeholder="Enter Secret Key" required>
                 <button type="submit" class="btn-green">Publish to Website</button>
             </form>
@@ -64,9 +62,7 @@
             <h2>Manage Content</h2>
             <button id="btn-load-roster" class="btn-view" style="margin-bottom: 10px;">Load / Refresh Roster</button>
             <div id="roster-list"></div>
-            
             <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-            
             <button id="btn-load-events" class="btn-view" style="background: #28a745;">Load / Refresh Events</button>
             <div id="events-list"></div>
         </div>

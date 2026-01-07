@@ -49,16 +49,23 @@ async function loadEvents() {
         const querySnapshot = await getDocs(q);
         
         if (!querySnapshot.empty) {
-            eventGrid.innerHTML = ""; // Clear the "planning phase" placeholder
+            eventGrid.innerHTML = ""; // Clear placeholder
             querySnapshot.forEach((doc) => {
                 const ev = doc.data();
+                
+                // Use the link from the database, or default to contact section if missing
+                const regLink = ev.link || "#contact";
+
                 eventGrid.innerHTML += `
                     <div style="background: rgba(255,255,255,0.05); border-left: 5px solid #d4af37; padding: 25px; border-radius: 4px; transition: 0.3s;">
                         <h3 style="color: #fff; margin: 0; font-family: 'Oswald'; text-transform: uppercase; letter-spacing: 1px;">${ev.title}</h3>
                         <p style="color: #d4af37; margin: 10px 0; font-weight: bold;">📍 ${ev.location}</p>
                         <p style="font-size: 0.9rem; opacity: 0.7; color: #fff;">📅 ${ev.date}</p>
+                        
                         <div style="margin-top: 15px;">
-                            <span style="background: #d4af37; color: #050a1a; padding: 5px 12px; font-size: 0.7rem; font-weight: bold; border-radius: 20px; text-transform: uppercase;">Registering Interest</span>
+                            <a href="${regLink}" target="_blank" style="display: inline-block; background: #d4af37; color: #050a1a; padding: 10px 20px; font-size: 0.8rem; font-weight: bold; border-radius: 4px; text-decoration: none; text-transform: uppercase; transition: 0.3s;">
+                                Register Now
+                            </a>
                         </div>
                     </div>
                 `;
