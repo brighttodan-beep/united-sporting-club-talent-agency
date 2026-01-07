@@ -9,11 +9,12 @@
     <style>
         body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
         .admin-container { max-width: 700px; margin: 40px auto; padding: 20px; }
-        .admin-box, .inbox-box, .manage-box { 
+        .admin-box, .inbox-box, .manage-box, .event-box { 
             background: #ffffff; padding: 30px; border-top: 5px solid #d4af37; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; 
         }
         .manage-box { border-top-color: #050a1a; }
+        .event-box { border-top-color: #28a745; } /* Green for events */
         h2 { font-family: 'Oswald', sans-serif; text-transform: uppercase; color: #050a1a; margin-bottom: 20px; }
         input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
         .btn-view, .btn-delete { border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
@@ -22,6 +23,7 @@
         .btn-delete:hover { background: #cc0000; }
         .item-card { background: #f9f9f9; padding: 15px; margin-top: 15px; border-left: 4px solid #d4af37; border-radius: 4px; position: relative; }
         .msg-date { font-size: 0.7rem; color: #777; margin-top: 10px; }
+        .btn-green { background: #28a745; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
     </style>
 </head>
 <body>
@@ -47,10 +49,26 @@
             <div id="status"></div>
         </div>
 
+        <div class="event-box">
+            <h2>Post Trial or Tour</h2>
+            <form id="event-form">
+                <input type="text" id="eventTitle" placeholder="Event Name (e.g. Europe Showcase Tour)" required>
+                <input type="text" id="eventLocation" placeholder="Location (e.g. Accra, Ghana or Spain)" required>
+                <input type="text" id="eventDate" placeholder="Date (e.g. October 2025)" required>
+                <input type="password" id="eventAdminKey" placeholder="Enter Secret Key" required>
+                <button type="submit" class="btn-green">Publish to Website</button>
+            </form>
+        </div>
+
         <div class="manage-box">
-            <h2>Manage Current Roster</h2>
-            <button id="btn-load-roster" class="btn-view">Load / Refresh Roster</button>
+            <h2>Manage Content</h2>
+            <button id="btn-load-roster" class="btn-view" style="margin-bottom: 10px;">Load / Refresh Roster</button>
             <div id="roster-list"></div>
+            
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+            
+            <button id="btn-load-events" class="btn-view" style="background: #28a745;">Load / Refresh Events</button>
+            <div id="events-list"></div>
         </div>
 
         <div class="inbox-box">

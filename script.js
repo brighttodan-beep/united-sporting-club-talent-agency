@@ -39,13 +39,42 @@ if (contactForm) {
     });
 }
 
-// --- 2. FETCH AND DISPLAY PLAYERS (PASSPORT ICON MODE) ---
+// --- 2. FETCH AND DISPLAY EVENTS (TRIALS & TOURS) ---
+async function loadEvents() {
+    const eventGrid = document.getElementById('events-grid');
+    if (!eventGrid) return;
+
+    try {
+        const q = query(collection(db, "events"), orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+            eventGrid.innerHTML = ""; // Clear the "planning phase" placeholder
+            querySnapshot.forEach((doc) => {
+                const ev = doc.data();
+                eventGrid.innerHTML += `
+                    <div style="background: rgba(255,255,255,0.05); border-left: 5px solid #d4af37; padding: 25px; border-radius: 4px; transition: 0.3s;">
+                        <h3 style="color: #fff; margin: 0; font-family: 'Oswald'; text-transform: uppercase; letter-spacing: 1px;">${ev.title}</h3>
+                        <p style="color: #d4af37; margin: 10px 0; font-weight: bold;">📍 ${ev.location}</p>
+                        <p style="font-size: 0.9rem; opacity: 0.7; color: #fff;">📅 ${ev.date}</p>
+                        <div style="margin-top: 15px;">
+                            <span style="background: #d4af37; color: #050a1a; padding: 5px 12px; font-size: 0.7rem; font-weight: bold; border-radius: 20px; text-transform: uppercase;">Registering Interest</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+    } catch (error) {
+        console.error("Error loading events:", error);
+    }
+}
+
+// --- 3. FETCH AND DISPLAY PLAYERS ---
 async function loadPlayers() {
     const playerGrid = document.getElementById('player-grid');
     if (!playerGrid) return;
 
     try {
-        // Query ordered by timestamp so the newest talent is always first
         const q = query(collection(db, "players"), orderBy("timestamp", "desc"));
         const querySnapshot = await getDocs(q);
         
@@ -58,14 +87,12 @@ async function loadPlayers() {
 
         querySnapshot.forEach((doc) => {
             const player = doc.data();
-            
-            // Professional silhouette icon for all players
             const passportIcon = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
             playerGrid.innerHTML += `
                 <div class="card talent-card" style="text-align: center; border-bottom: 4px solid #c5a028;">
                     <div class="icon-bg" style="background: #f4f4f4; width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; border: 2px solid #eee;">
-                        <img src="${passportIcon}" alt="Profile Silhouette" style="width: 60px; opacity: 0.4;">
+                        <img src="${passportIcon}" alt="Profile" style="width: 60px; opacity: 0.4;">
                     </div>
                     
                     <h3 style="color: #050a1a; font-family: 'Oswald', sans-serif; text-transform: uppercase; margin-bottom: 12px; font-size: 1.4rem;">
@@ -90,4 +117,6 @@ async function loadPlayers() {
     }
 }
 
+// Run everything on page load
+loadEvents();
 loadPlayers();

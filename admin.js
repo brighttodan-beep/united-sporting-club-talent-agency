@@ -32,7 +32,7 @@ window.deleteItem = async (collectionName, id) => {
     }
 };
 
-// --- 1. ADD PLAYER (REMOVED IMAGE URL LOGIC) ---
+// --- 1. ADD PLAYER ---
 document.getElementById('player-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (document.getElementById('adminKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
@@ -43,18 +43,37 @@ document.getElementById('player-form').addEventListener('submit', async (e) => {
             position: document.getElementById('playerPosition').value,
             club: document.getElementById('playerClub').value,
             age: document.getElementById('playerAge').value,
-            // Removed imageUrl line here
             timestamp: new Date()
         });
-        alert("✅ Added!");
+        alert("✅ Player Added to Roster!");
         location.reload();
     } catch (e) { 
         console.error(e);
-        alert("Error adding player. Make sure all fields are filled."); 
+        alert("Error adding player."); 
     }
 });
 
-// --- 2. LOAD ROSTER ---
+// --- 2. ADD TRIAL / TOUR (NEW) ---
+document.getElementById('event-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (document.getElementById('eventAdminKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
+
+    try {
+        await addDoc(collection(db, "events"), {
+            title: document.getElementById('eventTitle').value,
+            location: document.getElementById('eventLocation').value,
+            date: document.getElementById('eventDate').value,
+            timestamp: new Date()
+        });
+        alert("✅ Event Published Successfully!");
+        location.reload();
+    } catch (e) {
+        console.error(e);
+        alert("Error publishing event.");
+    }
+});
+
+// --- 3. LOAD ROSTER ---
 document.getElementById('btn-load-roster').addEventListener('click', async () => {
     const list = document.getElementById('roster-list');
     list.innerHTML = "Loading...";
@@ -74,7 +93,27 @@ document.getElementById('btn-load-roster').addEventListener('click', async () =>
     }
 });
 
-// --- 3. VIEW MESSAGES ---
+// --- 4. LOAD EVENTS (NEW) ---
+document.getElementById('btn-load-events').addEventListener('click', async () => {
+    const list = document.getElementById('events-list');
+    list.innerHTML = "Loading...";
+    try {
+        const snap = await getDocs(query(collection(db, "events"), orderBy("timestamp", "desc")));
+        list.innerHTML = "";
+        snap.forEach(d => {
+            const ev = d.data();
+            list.innerHTML += `<div class="item-card" style="border-left-color: #28a745;">
+                <h4>${ev.title}</h4>
+                <p style="font-size: 0.85rem; color: #555;">📍 ${ev.location} | 📅 ${ev.date}</p>
+                <button class="btn-delete" onclick="deleteItem('events', '${d.id}')">Remove Event</button>
+            </div>`;
+        });
+    } catch (e) {
+        list.innerHTML = "Error loading events.";
+    }
+});
+
+// --- 5. VIEW MESSAGES ---
 document.getElementById('btn-view-messages').addEventListener('click', async () => {
     if (document.getElementById('inboxKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
     const list = document.getElementById('message-list');
