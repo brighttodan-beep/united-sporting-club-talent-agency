@@ -15,10 +15,15 @@
         }
         .manage-box { border-top-color: #050a1a; }
         .event-box { border-top-color: #28a745; }
-        .transfer-box { border-top-color: #007bff; } /* Blue for Transfers */
+        .transfer-box { border-top-color: #007bff; }
         
         h2 { font-family: 'Oswald', sans-serif; text-transform: uppercase; color: #050a1a; margin-bottom: 20px; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        
+        /* New Layout Helpers */
+        .form-row { display: flex; gap: 10px; }
+        .form-row input, .form-row select { flex: 1; }
+
         .btn-view, .btn-delete { border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
         .btn-view { background: #050a1a; color: white; width: 100%; }
         .btn-delete { background: #ff4d4d; color: white; font-size: 0.8rem; margin-top: 10px; }
@@ -35,14 +40,36 @@
             <h2>Add New Elite Talent</h2>
             <form id="player-form">
                 <input type="text" id="playerName" placeholder="Player Full Name" required>
-                <input type="text" id="playerPosition" placeholder="Position (e.g. Center Forward)" required>
+                
+                <div class="form-row">
+                    <input type="text" id="playerPosition" placeholder="Position (e.g. CF)" required>
+                    <select id="playerAge">
+                        <option value="U17">U17 (Verified)</option>
+                        <option value="U19">U19 (Verified)</option>
+                        <option value="U22">U22 (Verified)</option>
+                        <option value="Senior">Senior Pro</option>
+                    </select>
+                </div>
+
                 <input type="text" id="playerClub" placeholder="Current Club / Academy" required>
-                <select id="playerAge">
-                    <option value="U17">U17 (Verified)</option>
-                    <option value="U19">U19 (Verified)</option>
-                    <option value="U22">U22 (Verified)</option>
-                    <option value="Senior">Senior Pro</option>
-                </select>
+
+                <div class="form-row">
+                    <input type="text" id="playerHeight" placeholder="Height (e.g. 180cm)">
+                    <select id="playerFoot">
+                        <option value="Right">Right Foot</option>
+                        <option value="Left">Left Foot</option>
+                        <option value="Both">Both Feet</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <input type="number" id="playerApps" placeholder="Apps">
+                    <input type="number" id="playerGoals" placeholder="Goals">
+                    <input type="number" id="playerAssists" placeholder="Assists">
+                </div>
+
+                <input type="url" id="playerVideo" placeholder="Highlight Video Link (YouTube/Wyscout)">
+
                 <input type="password" id="adminKey" placeholder="Enter Secret Key" required>
                 <button type="submit" class="btn-main" style="width: 100%; background:#d4af37; color:white; border:none; padding:12px; font-weight:bold; cursor:pointer;">Upload to USC Roster</button>
             </form>
@@ -54,7 +81,7 @@
                 <input type="text" id="trPlayerName" placeholder="Player Name" required>
                 <input type="text" id="trFromClub" placeholder="From (Former Club)" required>
                 <input type="text" id="trToClub" placeholder="To (New Club)" required>
-                <input type="text" id="trType" placeholder="Type (e.g. Permanent Transfer or Pro Contract)" required>
+                <input type="text" id="trType" placeholder="Type (e.g. Permanent Transfer)" required>
                 <input type="password" id="trAdminKey" placeholder="Enter Secret Key" required>
                 <button type="submit" class="btn-blue">Publish Transfer</button>
             </form>
@@ -63,10 +90,10 @@
         <div class="event-box">
             <h2>Post Trial or Tour</h2>
             <form id="event-form">
-                <input type="text" id="eventTitle" placeholder="Event Name (e.g. Europe Showcase Tour)" required>
-                <input type="text" id="eventLocation" placeholder="Location (e.g. Accra, Ghana)" required>
-                <input type="text" id="eventDate" placeholder="Date (e.g. October 2025)" required>
-                <input type="url" id="eventLink" placeholder="Registration Link (WhatsApp or Google Form)" required>
+                <input type="text" id="eventTitle" placeholder="Event Name" required>
+                <input type="text" id="eventLocation" placeholder="Location" required>
+                <input type="text" id="eventDate" placeholder="Date" required>
+                <input type="url" id="eventLink" placeholder="Registration Link" required>
                 <input type="password" id="eventAdminKey" placeholder="Enter Secret Key" required>
                 <button type="submit" class="btn-green">Publish to Website</button>
             </form>
