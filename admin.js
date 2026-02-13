@@ -32,7 +32,7 @@ window.deleteItem = async (collectionName, id) => {
     }
 };
 
-// --- 1. ADD PLAYER ---
+// --- 1. ADD PLAYER (UPDATED WITH STATS) ---
 document.getElementById('player-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (document.getElementById('adminKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
@@ -43,9 +43,16 @@ document.getElementById('player-form').addEventListener('submit', async (e) => {
             position: document.getElementById('playerPosition').value,
             club: document.getElementById('playerClub').value,
             age: document.getElementById('playerAge').value,
+            // New Scouting Stats
+            height: document.getElementById('playerHeight').value || "N/A",
+            foot: document.getElementById('playerFoot').value,
+            apps: document.getElementById('playerApps').value || 0,
+            goals: document.getElementById('playerGoals').value || 0,
+            assists: document.getElementById('playerAssists').value || 0,
+            video: document.getElementById('playerVideo').value || "",
             timestamp: new Date()
         });
-        alert("✅ Player Added to Roster!");
+        alert("✅ Player Added to Roster with Stats!");
         location.reload();
     } catch (e) { 
         console.error(e);
@@ -110,6 +117,7 @@ document.getElementById('btn-load-roster').addEventListener('click', async () =>
             list.innerHTML += `<div class="item-card">
                 <h4>${p.name}</h4>
                 <p style="font-size: 0.85rem; color: #555;">Club: ${p.club || 'N/A'} | ${p.age}</p>
+                <p style="font-size: 0.75rem; color: #888;">HT: ${p.height} | Foot: ${p.foot} | G: ${p.goals}</p>
                 <button class="btn-delete" onclick="deleteItem('players', '${d.id}')">Remove Player</button>
             </div>`;
         });
@@ -132,7 +140,6 @@ if (btnLoadTransfers) {
                 list.innerHTML += `<div class="item-card" style="border-left-color: #007bff;">
                     <h4>${tr.playerName}</h4>
                     <p style="font-size: 0.85rem; color: #555;">${tr.fromClub} ➔ ${tr.toClub}</p>
-                    <p style="font-size: 0.7rem; color: #888;">Type: ${tr.type}</p>
                     <button class="btn-delete" onclick="deleteItem('transfers', '${d.id}')">Remove Transfer</button>
                 </div>`;
             });
