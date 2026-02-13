@@ -39,7 +39,41 @@ if (contactForm) {
     });
 }
 
-// --- 2. FETCH AND DISPLAY EVENTS (TRIALS & TOURS) ---
+// --- 2. FETCH AND DISPLAY TRANSFERS (DONE DEALS) ---
+async function loadTransfers() {
+    const transferGrid = document.getElementById('transfer-grid');
+    if (!transferGrid) return;
+
+    try {
+        const q = query(collection(db, "transfers"), orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+            transferGrid.innerHTML = ""; // Clear "fetching" text
+            querySnapshot.forEach((doc) => {
+                const tr = doc.data();
+                transferGrid.innerHTML += `
+                    <div class="transfer-card">
+                        <span class="transfer-tag">${tr.type || 'Done Deal'}</span>
+                        <h3 style="margin: 15px 0 5px 0; font-family: 'Oswald'; text-transform: uppercase;">${tr.playerName}</h3>
+                        <div class="transfer-path">
+                            <span>${tr.fromClub}</span>
+                            <span class="transfer-arrow">➔</span>
+                            <span style="color: #007bff;">${tr.toClub}</span>
+                        </div>
+                        <p style="font-size: 0.75rem; color: #888; font-style: italic;">Verified by USC Agency</p>
+                    </div>
+                `;
+            });
+        } else {
+            transferGrid.innerHTML = "<p style='grid-column: 1/-1; text-align: center; opacity: 0.6;'>Our 2026 transfer window movements will appear here.</p>";
+        }
+    } catch (error) {
+        console.error("Error loading transfers:", error);
+    }
+}
+
+// --- 3. FETCH AND DISPLAY EVENTS (TRIALS & TOURS) ---
 async function loadEvents() {
     const eventGrid = document.getElementById('events-grid');
     if (!eventGrid) return;
@@ -49,11 +83,9 @@ async function loadEvents() {
         const querySnapshot = await getDocs(q);
         
         if (!querySnapshot.empty) {
-            eventGrid.innerHTML = ""; // Clear placeholder
+            eventGrid.innerHTML = ""; 
             querySnapshot.forEach((doc) => {
                 const ev = doc.data();
-                
-                // Use the link from the database, or default to contact section if missing
                 const regLink = ev.link || "#contact";
 
                 eventGrid.innerHTML += `
@@ -76,7 +108,7 @@ async function loadEvents() {
     }
 }
 
-// --- 3. FETCH AND DISPLAY PLAYERS ---
+// --- 4. FETCH AND DISPLAY PLAYERS ---
 async function loadPlayers() {
     const playerGrid = document.getElementById('player-grid');
     if (!playerGrid) return;
@@ -125,5 +157,6 @@ async function loadPlayers() {
 }
 
 // Run everything on page load
+loadTransfers(); // New
 loadEvents();
 loadPlayers();
