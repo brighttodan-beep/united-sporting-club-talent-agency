@@ -53,7 +53,31 @@ document.getElementById('player-form').addEventListener('submit', async (e) => {
     }
 });
 
-// --- 2. ADD TRIAL / TOUR (WITH REGISTRATION LINK) ---
+// --- 2. ADD DONE DEAL (TRANSFER) ---
+const transferForm = document.getElementById('transfer-form');
+if (transferForm) {
+    transferForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (document.getElementById('trAdminKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
+
+        try {
+            await addDoc(collection(db, "transfers"), {
+                playerName: document.getElementById('trPlayerName').value,
+                fromClub: document.getElementById('trFromClub').value,
+                toClub: document.getElementById('trToClub').value,
+                type: document.getElementById('trType').value,
+                timestamp: new Date()
+            });
+            alert("✅ Transfer Published Successfully!");
+            location.reload();
+        } catch (e) {
+            console.error(e);
+            alert("Error publishing transfer.");
+        }
+    });
+}
+
+// --- 3. ADD TRIAL / TOUR ---
 document.getElementById('event-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (document.getElementById('eventAdminKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
@@ -63,21 +87,21 @@ document.getElementById('event-form').addEventListener('submit', async (e) => {
             title: document.getElementById('eventTitle').value,
             location: document.getElementById('eventLocation').value,
             date: document.getElementById('eventDate').value,
-            link: document.getElementById('eventLink').value, // Captured from the new HTML input
+            link: document.getElementById('eventLink').value,
             timestamp: new Date()
         });
         alert("✅ Event Published Successfully!");
         location.reload();
     } catch (e) {
         console.error(e);
-        alert("Error publishing event. Make sure the 'eventLink' field exists in your HTML.");
+        alert("Error publishing event.");
     }
 });
 
-// --- 3. LOAD ROSTER ---
+// --- 4. LOAD ROSTER ---
 document.getElementById('btn-load-roster').addEventListener('click', async () => {
     const list = document.getElementById('roster-list');
-    list.innerHTML = "Loading...";
+    list.innerHTML = "Loading talent...";
     try {
         const snap = await getDocs(query(collection(db, "players"), orderBy("timestamp", "desc")));
         list.innerHTML = "";
@@ -94,10 +118,34 @@ document.getElementById('btn-load-roster').addEventListener('click', async () =>
     }
 });
 
-// --- 4. LOAD EVENTS ---
+// --- 5. LOAD TRANSFERS ---
+const btnLoadTransfers = document.getElementById('btn-load-transfers');
+if (btnLoadTransfers) {
+    btnLoadTransfers.addEventListener('click', async () => {
+        const list = document.getElementById('transfer-list');
+        list.innerHTML = "Loading deals...";
+        try {
+            const snap = await getDocs(query(collection(db, "transfers"), orderBy("timestamp", "desc")));
+            list.innerHTML = "";
+            snap.forEach(d => {
+                const tr = d.data();
+                list.innerHTML += `<div class="item-card" style="border-left-color: #007bff;">
+                    <h4>${tr.playerName}</h4>
+                    <p style="font-size: 0.85rem; color: #555;">${tr.fromClub} ➔ ${tr.toClub}</p>
+                    <p style="font-size: 0.7rem; color: #888;">Type: ${tr.type}</p>
+                    <button class="btn-delete" onclick="deleteItem('transfers', '${d.id}')">Remove Transfer</button>
+                </div>`;
+            });
+        } catch (e) {
+            list.innerHTML = "Error loading transfers.";
+        }
+    });
+}
+
+// --- 6. LOAD EVENTS ---
 document.getElementById('btn-load-events').addEventListener('click', async () => {
     const list = document.getElementById('events-list');
-    list.innerHTML = "Loading...";
+    list.innerHTML = "Loading events...";
     try {
         const snap = await getDocs(query(collection(db, "events"), orderBy("timestamp", "desc")));
         list.innerHTML = "";
@@ -106,7 +154,6 @@ document.getElementById('btn-load-events').addEventListener('click', async () =>
             list.innerHTML += `<div class="item-card" style="border-left-color: #28a745;">
                 <h4>${ev.title}</h4>
                 <p style="font-size: 0.85rem; color: #555;">📍 ${ev.location} | 📅 ${ev.date}</p>
-                <p style="font-size: 0.7rem; color: #888; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">🔗 ${ev.link || 'No link provided'}</p>
                 <button class="btn-delete" onclick="deleteItem('events', '${d.id}')">Remove Event</button>
             </div>`;
         });
@@ -115,11 +162,11 @@ document.getElementById('btn-load-events').addEventListener('click', async () =>
     }
 });
 
-// --- 5. VIEW MESSAGES ---
+// --- 7. VIEW MESSAGES ---
 document.getElementById('btn-view-messages').addEventListener('click', async () => {
     if (document.getElementById('inboxKey').value !== SECRET_KEY) { alert("Wrong Key!"); return; }
     const list = document.getElementById('message-list');
-    list.innerHTML = "Loading...";
+    list.innerHTML = "Loading messages...";
     try {
         const snap = await getDocs(query(collection(db, "inquiries"), orderBy("timestamp", "desc")));
         list.innerHTML = "";
