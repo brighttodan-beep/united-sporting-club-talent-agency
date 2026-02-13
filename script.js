@@ -49,7 +49,7 @@ async function loadTransfers() {
         const querySnapshot = await getDocs(q);
         
         if (!querySnapshot.empty) {
-            transferGrid.innerHTML = ""; // Clear "fetching" text
+            transferGrid.innerHTML = ""; 
             querySnapshot.forEach((doc) => {
                 const tr = doc.data();
                 transferGrid.innerHTML += `
@@ -108,7 +108,7 @@ async function loadEvents() {
     }
 }
 
-// --- 4. FETCH AND DISPLAY PLAYERS ---
+// --- 4. FETCH AND DISPLAY PLAYERS (ENHANCED SCOUT REPORT) ---
 async function loadPlayers() {
     const playerGrid = document.getElementById('player-grid');
     if (!playerGrid) return;
@@ -125,38 +125,49 @@ async function loadPlayers() {
         playerGrid.innerHTML = ""; 
 
         querySnapshot.forEach((doc) => {
-            const player = doc.data();
+            const p = doc.data();
             const passportIcon = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
             playerGrid.innerHTML += `
-                <div class="card talent-card" style="text-align: center; border-bottom: 4px solid #c5a028;">
-                    <div class="icon-bg" style="background: #f4f4f4; width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; border: 2px solid #eee;">
-                        <img src="${passportIcon}" alt="Profile" style="width: 60px; opacity: 0.4;">
-                    </div>
-                    
-                    <h3 style="color: #050a1a; font-family: 'Oswald', sans-serif; text-transform: uppercase; margin-bottom: 12px; font-size: 1.4rem;">
-                        ${player.name || 'Elite Talent'}
-                    </h3>
-                    
-                    <div style="text-align: left; background: #fafafa; padding: 12px; border-radius: 6px; border: 1px solid #f0f0f0;">
-                        <p style="margin: 5px 0; font-size: 0.9rem; color: #333;"><strong>POS:</strong> ${player.position || 'N/A'}</p>
-                        <p style="margin: 5px 0; font-size: 0.9rem; color: #333;"><strong>CLUB:</strong> ${player.club || 'Free Agent'}</p>
-                        <p style="margin: 5px 0; font-size: 0.9rem; color: #333;"><strong>CAT:</strong> ${player.age || 'U17'}</p>
+                <div class="card talent-card" style="border-bottom: 4px solid #c5a028; padding: 20px;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; text-align: left;">
+                        <img src="${passportIcon}" alt="Profile" style="width: 50px; opacity: 0.3;">
+                        <div>
+                            <h3 style="color: #050a1a; font-family: 'Oswald', sans-serif; text-transform: uppercase; margin: 0; line-height: 1.2;">${p.name}</h3>
+                            <span style="background: #050a1a; color: #d4af37; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold;">${p.position} | ${p.age}</span>
+                        </div>
                     </div>
 
-                    <p style="color: #c5a028; font-weight: bold; font-size: 0.7rem; margin-top: 15px; letter-spacing: 2px; text-transform: uppercase;">
-                        ✓ USC VERIFIED PROSPECT
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8f9fa; padding: 12px; border-radius: 6px; font-size: 0.85rem; text-align: left; margin-bottom: 15px;">
+                        <div><span style="color: #888; font-size: 0.7rem; display: block;">CLUB</span><strong>${p.club}</strong></div>
+                        <div><span style="color: #888; font-size: 0.7rem; display: block;">HEIGHT</span><strong>${p.height || 'N/A'}</strong></div>
+                        <div><span style="color: #888; font-size: 0.7rem; display: block;">FOOT</span><strong>${p.foot || 'Right'}</strong></div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 15px; margin-bottom: 15px;">
+                        <div style="text-align: center;"><span style="display: block; font-weight: bold; font-size: 1.2rem;">${p.apps || 0}</span><small style="color: #888; font-size: 0.65rem;">APPS</small></div>
+                        <div style="text-align: center;"><span style="display: block; font-weight: bold; font-size: 1.2rem; color: #c5a028;">${p.goals || 0}</span><small style="color: #888; font-size: 0.65rem;">GOALS</small></div>
+                        <div style="text-align: center;"><span style="display: block; font-weight: bold; font-size: 1.2rem;">${p.assists || 0}</span><small style="color: #888; font-size: 0.65rem;">ASST</small></div>
+                    </div>
+
+                    ${p.video ? `
+                        <a href="${p.video}" target="_blank" style="display: block; background: #007bff; color: white; text-decoration: none; padding: 10px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px; transition: 0.3s;">
+                           ▶ WATCH HIGHLIGHTS
+                        </a>
+                    ` : '<div style="height: 42px;"></div>'}
+
+                    <p style="color: #c5a028; font-weight: bold; font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; margin: 0;">
+                        ✓ USC VERIFIED TALENT
                     </p>
                 </div>
             `;
         });
     } catch (error) {
         console.error("Error loading players:", error);
-        playerGrid.innerHTML = "<p>Error loading roster. Please refresh.</p>";
     }
 }
 
 // Run everything on page load
-loadTransfers(); // New
+loadTransfers(); 
 loadEvents();
 loadPlayers();
