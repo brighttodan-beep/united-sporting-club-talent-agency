@@ -3,127 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USC Admin | Command Center</title>
+    <title>USC Admin | Elite Command Center</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #f0f2f5; font-family: 'Inter', sans-serif; }
-        .admin-container { max-width: 700px; margin: 40px auto; padding: 20px; }
-        .admin-box, .inbox-box, .manage-box, .event-box, .transfer-box { 
-            background: #ffffff; padding: 30px; border-top: 5px solid #d4af37; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; 
+        :root {
+            --admin-bg: #f4f7f9;
+            --panel-white: #ffffff;
+            --accent-gold: #d4af37;
+            --navy-dark: #050a1a;
         }
-        .manage-box { border-top-color: #050a1a; }
-        .event-box { border-top-color: #28a745; }
-        .transfer-box { border-top-color: #007bff; }
-        
-        h2 { font-family: 'Oswald', sans-serif; text-transform: uppercase; color: #050a1a; margin-bottom: 20px; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        
-        /* New Layout Helpers */
-        .form-row { display: flex; gap: 10px; }
-        .form-row input, .form-row select { flex: 1; }
 
-        .btn-view, .btn-delete { border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
-        .btn-view { background: #050a1a; color: white; width: 100%; }
-        .btn-delete { background: #ff4d4d; color: white; font-size: 0.8rem; margin-top: 10px; }
-        .btn-delete:hover { background: #cc0000; }
-        .item-card { background: #f9f9f9; padding: 15px; margin-top: 15px; border-left: 4px solid #d4af37; border-radius: 4px; position: relative; }
-        .btn-green { background: #28a745; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
-        .btn-blue { background: #007bff; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
+        body { 
+            background-color: var(--admin-bg); 
+            font-family: 'Inter', sans-serif; 
+            color: var(--navy-dark);
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-header {
+            background: var(--navy-dark);
+            color: white;
+            padding: 20px 5%;
+            text-align: center;
+            border-bottom: 4px solid var(--accent-gold);
+            margin-bottom: 30px;
+        }
+
+        .admin-header h1 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .admin-container { 
+            max-width: 850px; 
+            margin: 0 auto 60px auto; 
+            padding: 0 20px; 
+        }
+
+        /* Section Panels */
+        .admin-panel { 
+            background: var(--panel-white); 
+            padding: 35px; 
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            border-top: 5px solid var(--accent-gold);
+        }
+
+        h2 { 
+            font-family: 'Oswald', sans-serif; 
+            text-transform: uppercase; 
+            color: var(--navy-dark); 
+            margin-bottom: 25px; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Form Styling */
+        .form-group { margin-bottom: 15px; }
+        
+        label { 
+            display: block; 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            margin-bottom: 5px; 
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        input, select, textarea { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid #e1e1e1; 
+            border-radius: 5px; 
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus { border-color: var(--accent-gold); outline: none; }
+
+        .form-row { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+        }
+
+        .stats-row {
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr; 
+            gap: 10px;
+        }
+
+        /* Custom Admin Buttons */
+        .btn-action {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .btn-gold { background: var(--accent-gold); color: white; }
+        .btn-gold:hover { background: #b8952d; transform: translateY(-2px); }
+        
+        .btn-navy { background: var(--navy-dark); color: white; }
+        .btn-navy:hover { background: #0a1430; }
+
+        .btn-green { background: #28a745; color: white; }
+        .btn-blue { background: #007bff; color: white; }
+
+        /* Management Lists */
+        .list-container {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 5px;
+        }
+
+        .item-card { 
+            background: #fdfdfd; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+            border-left: 4px solid var(--accent-gold); 
+            border-radius: 4px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #eee;
+        }
+
+        .btn-delete { 
+            background: #ff4d4d; 
+            color: white; 
+            border: none; 
+            padding: 8px 12px; 
+            border-radius: 4px; 
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .divider {
+            height: 1px;
+            background: #eee;
+            margin: 40px 0;
+        }
+
+        .nav-back {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .nav-back a {
+            text-decoration: none;
+            color: var(--navy-dark);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
+    <header class="admin-header">
+        <h1>USC Command Center</h1>
+        <p style="font-size: 0.8rem; opacity: 0.8; margin-top: 5px;">United Sporting Club Management Portal v2.0</p>
+    </header>
+
     <div class="admin-container">
-        <div class="admin-box">
-            <h2>Add New Elite Talent</h2>
+        
+        <div class="admin-panel">
+            <h2><span>⚽</span> Add New Elite Talent</h2>
             <form id="player-form">
-                <input type="text" id="playerName" placeholder="Player Full Name" required>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="playerName" placeholder="e.g. Kwesi Appiah" required>
+                </div>
                 
                 <div class="form-row">
-                    <input type="text" id="playerPosition" placeholder="Position (e.g. CF)" required>
-                    <select id="playerAge">
-                        <option value="U17">U17 (Verified)</option>
-                        <option value="U19">U19 (Verified)</option>
-                        <option value="U22">U22 (Verified)</option>
-                        <option value="Senior">Senior Pro</option>
-                    </select>
+                    <div class="form-group">
+                        <label>Primary Position</label>
+                        <input type="text" id="playerPosition" placeholder="e.g. Center Forward" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Age Category</label>
+                        <select id="playerAge">
+                            <option value="U17">U17 (Verified)</option>
+                            <option value="U19">U19 (Verified)</option>
+                            <option value="U22">U22 (Verified)</option>
+                            <option value="Senior">Senior Pro</option>
+                        </select>
+                    </div>
                 </div>
 
-                <input type="text" id="playerClub" placeholder="Current Club / Academy" required>
-
-                <div class="form-row">
-                    <input type="text" id="playerHeight" placeholder="Height (e.g. 180cm)">
-                    <select id="playerFoot">
-                        <option value="Right">Right Foot</option>
-                        <option value="Left">Left Foot</option>
-                        <option value="Both">Both Feet</option>
-                    </select>
+                <div class="form-group">
+                    <label>Current Club / Academy</label>
+                    <input type="text" id="playerClub" placeholder="Current location" required>
                 </div>
 
                 <div class="form-row">
+                    <div class="form-group">
+                        <label>Height</label>
+                        <input type="text" id="playerHeight" placeholder="e.g. 185cm">
+                    </div>
+                    <div class="form-group">
+                        <label>Preferred Foot</label>
+                        <select id="playerFoot">
+                            <option value="Right">Right Foot</option>
+                            <option value="Left">Left Foot</option>
+                            <option value="Both">Both Feet</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label>Season Statistics</label>
+                <div class="stats-row form-group">
                     <input type="number" id="playerApps" placeholder="Apps">
                     <input type="number" id="playerGoals" placeholder="Goals">
                     <input type="number" id="playerAssists" placeholder="Assists">
                 </div>
 
-                <input type="url" id="playerVideo" placeholder="Highlight Video Link (YouTube/Wyscout)">
+                <div class="form-group">
+                    <label>Scouting Video Link (YouTube/Wyscout)</label>
+                    <input type="url" id="playerVideo" placeholder="https://youtube.com/...">
+                </div>
 
-                <input type="password" id="adminKey" placeholder="Enter Secret Key" required>
-                <button type="submit" class="btn-main" style="width: 100%; background:#d4af37; color:white; border:none; padding:12px; font-weight:bold; cursor:pointer;">Upload to USC Roster</button>
+                <div class="form-group">
+                    <label>Admin Validation</label>
+                    <input type="password" id="adminKey" placeholder="Enter Secret Key" required>
+                </div>
+                
+                <button type="submit" class="btn-action btn-gold">Push to USC Roster</button>
             </form>
         </div>
 
-        <div class="transfer-box">
-            <h2>Post Done Deal (Transfer)</h2>
+        <div class="admin-panel" style="border-top-color: #007bff;">
+            <h2><span>🤝</span> Post Done Deal</h2>
             <form id="transfer-form">
                 <input type="text" id="trPlayerName" placeholder="Player Name" required>
-                <input type="text" id="trFromClub" placeholder="From (Former Club)" required>
-                <input type="text" id="trToClub" placeholder="To (New Club)" required>
-                <input type="text" id="trType" placeholder="Type (e.g. Permanent Transfer)" required>
-                <input type="password" id="trAdminKey" placeholder="Enter Secret Key" required>
-                <button type="submit" class="btn-blue">Publish Transfer</button>
+                <div class="form-row">
+                    <input type="text" id="trFromClub" placeholder="Former Club" required>
+                    <input type="text" id="trToClub" placeholder="New Club" required>
+                </div>
+                <input type="text" id="trType" placeholder="Transfer Type (e.g. Permanent / Loan)" required>
+                <input type="password" id="trAdminKey" placeholder="Secret Key" required>
+                <button type="submit" class="btn-action btn-blue">Publish Transfer Story</button>
             </form>
         </div>
 
-        <div class="event-box">
-            <h2>Post Trial or Tour</h2>
+        <div class="admin-panel" style="border-top-color: #28a745;">
+            <h2><span>📅</span> Schedule Trial or Tour</h2>
             <form id="event-form">
                 <input type="text" id="eventTitle" placeholder="Event Name" required>
-                <input type="text" id="eventLocation" placeholder="Location" required>
-                <input type="text" id="eventDate" placeholder="Date" required>
+                <div class="form-row">
+                    <input type="text" id="eventLocation" placeholder="Location" required>
+                    <input type="text" id="eventDate" placeholder="Date" required>
+                </div>
                 <input type="url" id="eventLink" placeholder="Registration Link" required>
-                <input type="password" id="eventAdminKey" placeholder="Enter Secret Key" required>
-                <button type="submit" class="btn-green">Publish to Website</button>
+                <input type="password" id="eventAdminKey" placeholder="Secret Key" required>
+                <button type="submit" class="btn-action btn-green">Update Public Calendar</button>
             </form>
         </div>
 
-        <div class="manage-box">
-            <h2>Manage Content</h2>
-            <button id="btn-load-roster" class="btn-view" style="margin-bottom: 10px;">Load / Refresh Roster</button>
-            <div id="roster-list"></div>
+        <div class="admin-panel" style="border-top-color: var(--navy-dark);">
+            <h2><span>🛠️</span> Content Management</h2>
             
-            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+            <button id="btn-load-roster" class="btn-action btn-navy" style="margin-bottom: 10px;">Load Talent Database</button>
+            <div id="roster-list" class="list-container"></div>
             
-            <button id="btn-load-transfers" class="btn-view" style="background: #007bff; margin-bottom: 10px;">Load / Refresh Transfers</button>
-            <div id="transfer-list"></div>
+            <div class="divider"></div>
+            
+            <button id="btn-load-transfers" class="btn-action btn-blue" style="margin-bottom: 10px;">Load Transfer History</button>
+            <div id="transfer-list" class="list-container"></div>
 
-            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+            <div class="divider"></div>
             
-            <button id="btn-load-events" class="btn-view" style="background: #28a745;">Load / Refresh Events</button>
-            <div id="events-list"></div>
+            <button id="btn-load-events" class="btn-action btn-green" style="margin-bottom: 10px;">Load Active Events</button>
+            <div id="events-list" class="list-container"></div>
         </div>
 
-        <div class="inbox-box">
-            <h2>Inquiry Inbox</h2>
-            <input type="password" id="inboxKey" placeholder="Enter Secret Key to Read">
-            <button id="btn-view-messages" class="btn-view">View New Messages</button>
-            <div id="message-list"></div>
+        <div class="admin-panel">
+            <h2><span>📩</span> Inquiry Inbox</h2>
+            <input type="password" id="inboxKey" placeholder="Secret Key to Unlock Messages" style="margin-bottom: 15px;">
+            <button id="btn-view-messages" class="btn-action btn-navy">Access Messages</button>
+            <div id="message-list" class="list-container"></div>
         </div>
 
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="index.html" style="text-decoration: none; color: #050a1a; font-weight: bold;">← Back to Website</a>
+        <div class="nav-back">
+            <a href="index.html">← Return to Live Website</a>
         </div>
     </div>
 
