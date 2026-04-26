@@ -3,39 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>United Sporting Club | Talent Agency</title>
+    <title>United Sporting Club | Elite Football Talent Agency</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* Special Styling for the Transfer Tracker */
+        /* Essential Section Overrides for Performance */
         .transfer-card {
             background: #fff;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 25px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #f0f0f0;
         }
-        .transfer-card:hover { transform: translateY(-5px); }
+        .transfer-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        
         .transfer-path {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             margin: 15px 0;
-            font-weight: bold;
+            font-weight: 800;
             color: #050a1a;
+            font-family: 'Oswald', sans-serif;
         }
-        .transfer-arrow { color: #d4af37; font-size: 1.2rem; }
+        
+        .transfer-arrow { color: #d4af37; font-size: 1.4rem; }
+        
         .transfer-tag {
             background: #eef4ff;
             color: #007bff;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        /* Glassmorphism for Talent Cards */
+        .talent-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
     </style>
 </head>
@@ -44,101 +58,85 @@
     <header>
         <nav>
             <div class="logo">USC <span>TALENT AGENCY</span></div>
-            <ul>
+            <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#transfers">Done Deals</a></li>
-                <li><a href="#events">Trials & Tours</a></li> 
-                <li><a href="#talent">Elite Talent</a></li>
-                <li><a href="#contact" class="btn-gold">Contact</a></li>
+                <li><a href="#transfers">Transfers</a></li>
+                <li><a href="#events">Trials</a></li> 
+                <li><a href="#talent">Roster</a></li>
+                <li><a href="#contact" class="btn-gold-nav">Inquiry</a></li>
             </ul>
+            <div class="menu-toggle"><span></span></div>
         </nav>
     </header>
 
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>Bridging African Talent to the <span class="text-gold">World Stage</span></h1>
-            <p>Integrity. Transparency. Elite Performance.</p>
+            <span class="hero-badge">Verified African Talent Pipeline</span>
+            <h1>From Local Grassroots to the <span class="text-gold">Global Stage</span></h1>
+            <p>We provide elite representation, professional scouting, and transparent pathways for West Africa's finest football prospects.</p>
             <div class="hero-btns">
-                <a href="#talent" class="btn-main">View Prospects</a>
-                <a href="#transfers" class="btn-outline">Success Stories</a>
+                <a href="#talent" class="btn-main">Browse Prospects</a>
+                <a href="#transfers" class="btn-outline">Our Done Deals</a>
             </div>
         </div>
     </section>
 
     <section id="services">
-        <h2 class="section-title">Our Professional Provision</h2>
-        <div class="grid">
-            <div class="card service-card">
-                <div class="icon">⚽</div>
-                <h3>Elite Scouting</h3>
-                <p>Active scouting networks across West Africa focusing on U17, U19, and U22 categories. We find the talent before the world does.</p>
-            </div>
-            <div class="card service-card">
-                <div class="icon">🛡️</div>
-                <h3>Admin Integrity</h3>
-                <p>Strict "Ghana Card" verification. We ensure all scouted players have verifiable age and identity documents—no "paper" players.</p>
-            </div>
-            <div class="card service-card">
-                <div class="icon">📈</div>
-                <h3>Digital Branding</h3>
-                <p>Professional video editing and profile creation to showcase players to international scouts and sporting directors globally.</p>
-            </div>
-            <div class="card service-card">
-                <div class="icon">🤝</div>
-                <h3>Club Placement</h3>
-                <p>Facilitating direct pathways into Division One (D1), Division Two (D2), and international leagues through a strategic intermediary role.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="transfers" style="background: #fdfdfd; padding: 80px 20px; border-top: 1px solid #eee;">
-        <div class="container" style="max-width: 1100px; margin: 0 auto;">
-            <h2 class="section-title">Transfer Showcase</h2>
-            <p style="text-align: center; margin-bottom: 40px; color: #666;">Proven track record of successful club placements and professional transitions.</p>
-            
-            <div id="transfer-grid" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px; opacity: 0.5;">
-                    <p>Fetching latest transfer data...</p>
+        <div class="container">
+            <h2 class="section-title">The USC Professional Standard</h2>
+            <div class="grid">
+                <div class="card service-card">
+                    <div class="icon">⚽</div>
+                    <h3>Technical Scouting</h3>
+                    <p>Data-driven scouting across West Africa, identifying high-potential athletes in U17 to U22 categories.</p>
+                </div>
+                <div class="card service-card">
+                    <div class="icon">🛡️</div>
+                    <h3>KYC & Integrity</h3>
+                    <p>Rigorous identity verification. Every prospect in our roster is fully documented with verified sporting history.</p>
+                </div>
+                <div class="card service-card">
+                    <div class="icon">📺</div>
+                    <h3>Media Scouting</h3>
+                    <p>High-definition highlight production and digital portfolio management for international club presentations.</p>
+                </div>
+                <div class="card service-card">
+                    <div class="icon">🤝</div>
+                    <h3>Placement Agency</h3>
+                    <p>Strategic networking with clubs in Europe, Asia, and Arab leagues for trials and professional contracts.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="events" style="background: #050a1a; color: white; padding: 80px 20px;">
-        <div class="container" style="max-width: 1100px; margin: 0 auto;">
-            <h2 class="section-title" style="color: #d4af37; margin-bottom: 10px;">Upcoming Trials & Tours</h2>
-            <p style="text-align: center; margin-bottom: 40px; opacity: 0.8;">Exclusive pathways to professional football.</p>
+    <section id="transfers" class="dark-bg-subtle">
+        <div class="container">
+            <h2 class="section-title">Done Deals 2026</h2>
+            <p class="section-subtitle">Real results. Real careers. USC Success Stories.</p>
+            
+            <div id="transfer-grid" class="grid">
+                <div class="loading-state">
+                    <p>Synchronizing Transfer Database...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="events" class="navy-section">
+        <div class="container">
+            <div class="section-header-light">
+                <h2 class="section-title text-gold">Showcase Tours & Trials</h2>
+                <p>Applications for the upcoming 2026 scouting windows are now being processed.</p>
+            </div>
             
             <div id="events-grid" class="grid">
-                <div style="grid-column: 1/-1; text-align: center; border: 1px dashed rgba(212, 175, 55, 0.3); padding: 40px;">
-                    <p style="opacity: 0.6;">Current international showcase tours are in the planning phase. Check back soon.</p>
+                <div class="event-placeholder">
+                    <p>Checking for active scouting events...</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="talent">
-        <h2 class="section-title">Verified Prospects</h2>
-        <div id="player-grid" class="grid">
-            </div>
-    </section>
-
-    <section id="contact">
-        <div class="contact-container">
-            <h2 class="section-title">Contact Agency Manager</h2>
-            <form id="contact-form">
-                <input type="text" id="clientName" placeholder="Your Name / Club Name" required>
-                <input type="email" id="clientEmail" placeholder="Your Email" required>
-                <textarea id="message" placeholder="Inquiry details (Trials, Scouting, etc.)" required></textarea>
-                <button type="submit" class="btn-main">Send Message</button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 United Sporting Club Talent Agency. Managed in Ghana.</p>
-    </footer>
-
-    <script type="module" src="script.js"></script>
-</body>
-</html>
+        <div class="container">
+            <h2 class="section-title">Verified
