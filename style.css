@@ -1,9 +1,10 @@
 :root {
-    --primary-blue: #050a1a; /* Darker Blue-Black */
+    --primary-blue: #050a1a; 
     --gold: #c5a028;
     --yellow: #ffcc00;
     --white: #ffffff;
     --gray: #f8f9fa;
+    --dark-accent: #0a1329;
 }
 
 * {
@@ -12,14 +13,18 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--white);
     color: var(--primary-blue);
     line-height: 1.6;
-    scroll-behavior: smooth;
 }
 
+/* --- NAVIGATION --- */
 header {
     background: var(--primary-blue);
     padding: 1rem 5%;
@@ -27,193 +32,231 @@ header {
     width: 100%;
     z-index: 1000;
     border-bottom: 2px solid var(--gold);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .logo {
     color: var(--white);
     font-family: 'Oswald', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .logo span {
-    color: var(--yellow);
-    font-weight: bold;
+    color: var(--gold); /* Switched to Gold for a more elite feel */
+    font-weight: 800;
 }
 
 nav ul {
     display: flex;
     list-style: none;
+    align-items: center;
 }
 
 nav ul li {
-    margin-left: 20px;
+    margin-left: 25px;
 }
 
 nav ul li a {
     color: var(--white);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 600;
     text-transform: uppercase;
-    transition: 0.3s;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: var(--yellow);
+    color: var(--gold);
 }
 
-/* Hero Section */
-#home {
+/* --- HERO SECTION --- */
+.hero {
     height: 100vh;
-    background: linear-gradient(rgba(5, 10, 26, 0.85), rgba(5, 10, 26, 0.85)), 
+    background: linear-gradient(rgba(5, 10, 26, 0.8), rgba(5, 10, 26, 0.8)), 
                 url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=2070') center/cover;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: var(--white);
+    padding: 0 5%;
 }
 
 .hero-content h1 {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 6vw, 4.5rem); /* Fluid typography */
     font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    letter-spacing: 2px;
     text-transform: uppercase;
 }
 
-.text-gold { color: var(--gold); }
-
-.hero-btns { margin-top: 30px; }
-
+/* --- BUTTONS --- */
 .btn-main {
-    background: var(--yellow);
-    color: var(--primary-blue);
-    padding: 15px 35px;
+    background: var(--gold);
+    color: var(--white);
+    padding: 16px 40px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     border: none;
-    cursor: pointer;
     border-radius: 4px;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     display: inline-block;
 }
 
-.btn-main:hover { background: var(--white); }
+.btn-main:hover {
+    background: var(--white);
+    color: var(--primary-blue);
+    transform: translateY(-3px);
+}
 
 .btn-outline {
     border: 2px solid var(--gold);
     color: var(--gold);
-    padding: 13px 35px;
+    padding: 14px 38px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     border-radius: 4px;
-    margin-left: 10px;
+    margin-left: 15px;
+    transition: all 0.3s ease;
     display: inline-block;
 }
 
-/* Universal Section Styling */
-#services, #talent, #contact {
-    padding: 100px 10%;
+.btn-outline:hover {
+    background: var(--gold);
+    color: var(--white);
+}
+
+/* --- SECTIONS & GRIDS --- */
+section {
+    padding: 100px 8%;
 }
 
 .section-title {
     text-align: center;
-    margin-bottom: 50px;
-    font-size: 2.5rem;
+    margin-bottom: 60px;
+    font-size: 2.8rem;
     font-family: 'Oswald', sans-serif;
     text-transform: uppercase;
+    position: relative;
+    padding-bottom: 15px;
 }
 
-/* Grid System */
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--gold);
+}
+
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
 }
 
-/* Services Specific Styling */
-#services {
+/* --- CARDS --- */
+.card {
     background: var(--white);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
 }
 
 .service-card {
+    border-top: 5px solid var(--gold);
     text-align: center;
-    border-top: 4px solid var(--gold);
-    border-left: none !important; /* Overriding general card style */
-    padding: 40px 20px;
-    transition: transform 0.3s;
 }
 
 .service-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-12px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
 }
 
-.service-card .icon {
-    font-size: 2.5rem;
+/* --- CONTACT FORM --- */
+.contact-container {
+    background: var(--gray);
+    padding: 60px;
+    border-radius: 12px;
+}
+
+#contact-form input, 
+#contact-form textarea {
+    width: 100%;
+    padding: 18px;
+    margin-bottom: 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+#contact-form input:focus, 
+#contact-form textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+}
+
+/* --- FOOTER --- */
+footer {
+    background: var(--dark-accent);
+    color: rgba(255,255,255,0.7);
+    padding: 50px 5% 20px;
+    text-align: center;
+}
+
+.footer-logo {
+    font-family: 'Oswald', sans-serif;
+    color: var(--white);
+    font-size: 1.5rem;
     margin-bottom: 20px;
 }
 
-.service-card h3 {
-    font-family: 'Oswald', sans-serif;
-    color: var(--primary-blue);
-    margin-bottom: 15px;
-    text-transform: uppercase;
-}
-
-/* Talent Specific Styling */
-#talent { 
-    background: var(--gray); 
-}
-
-.card {
-    background: var(--white);
-    padding: 30px;
-    border-left: 5px solid var(--primary-blue);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-
-.card h3 { color: var(--gold); margin-bottom: 10px; }
-
-/* Contact Form */
-#contact-form {
-    max-width: 600px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-#contact-form input, #contact-form textarea {
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-family: 'Inter', sans-serif;
-}
-
-#contact-form textarea {
-    height: 150px;
-    resize: none;
-}
-
-/* Footer */
-footer {
-    background: var(--primary-blue);
-    color: var(--white);
-    text-align: center;
-    padding: 30px;
-    font-size: 0.8rem;
-    border-top: 1px solid #222;
-}
-
-/* Responsive Adjustments */
+/* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 768px) {
-    .hero-content h1 { font-size: 2.5rem; }
-    nav ul { display: none; } /* Consider adding a mobile menu later */
-    .btn-outline { margin-left: 0; margin-top: 10px; }
+    header { padding: 1rem 20px; }
+    
+    nav ul { display: none; } /* Add a hamburger menu in JS later */
+    
+    section { padding: 70px 20px; }
+    
+    .hero-content h1 { font-size: 2.8rem; }
+    
+    .btn-outline {
+        margin-left: 0;
+        margin-top: 15px;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .btn-main {
+        width: 100%;
+        text-align: center;
+    }
 }
