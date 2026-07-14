@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Your exact Firebase configuration
+// Firebase Configuration
 const firebaseConfig = {
     apiKey: "AIzaSyACdkdP5dUmxnULRtMmD6O47VyCmQkOmLs",
     authDomain: "usctalent-agency.firebaseapp.com",
@@ -39,15 +39,23 @@ if (contactForm) {
     });
 }
 
-// --- 2. FETCH AND DISPLAY PLAYERS (PASSPORT ICON MODE) ---
+// --- 2. FETCH AND DISPLAY PLAYERS (WITH FALLBACK FOR MISSING INDEXES) ---
 async function loadPlayers() {
     const playerGrid = document.getElementById('player-grid');
     if (!playerGrid) return;
 
     try {
-        // Query ordered by timestamp so the newest talent is always first
-        const q = query(collection(db, "players"), orderBy("timestamp", "desc"));
-        const querySnapshot = await getDocs(q);
+        let querySnapshot;
+        try {
+            // Try matching with your sorted timestamp index first
+            const q = query(collection(db, "players"), orderBy("timestamp", "desc"));
+            querySnapshot = await getDocs(q);
+        } catch (indexError) {
+            console.warn("Index not ready yet. Falling back to unsorted fetch...", indexError);
+            // Fallback query (prevents site from being blank if Firebase index is building)
+            const fallbackQuery = query(collection(db, "players"));
+            querySnapshot = await getDocs(fallbackQuery);
+        }
         
         if (querySnapshot.empty) {
             playerGrid.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Currently scouting new talent. Check back soon.</p>";
@@ -58,8 +66,6 @@ async function loadPlayers() {
 
         querySnapshot.forEach((doc) => {
             const player = doc.data();
-            
-            // Professional silhouette icon for all players
             const passportIcon = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
             playerGrid.innerHTML += `
@@ -86,8 +92,9 @@ async function loadPlayers() {
         });
     } catch (error) {
         console.error("Error loading players:", error);
-        playerGrid.innerHTML = "<p>Error loading roster. Please refresh.</p>";
+        playerGrid.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Error loading roster. Please refresh.</p>";
     }
 }
 
-loadPlayers();
+// Ensure the page paints first
+window.addEventListener('DOMContentLoaded', loadPlayers);
