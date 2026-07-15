@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>USC Admin | Command Center</title>
+    
+    <link rel="icon" href="data:,">
+
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" rel="stylesheet">
     <style>
@@ -15,7 +18,7 @@
         }
         .manage-box { border-top-color: #050a1a; }
         h2 { font-family: 'Oswald', sans-serif; text-transform: uppercase; color: #050a1a; margin-bottom: 20px; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
         .btn-view, .btn-delete { border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.3s; }
         .btn-view { background: #050a1a; color: white; width: 100%; }
         .btn-delete { background: #ff4d4d; color: white; font-size: 0.8rem; margin-top: 10px; }
@@ -31,7 +34,15 @@
             <h2>Add New Elite Talent</h2>
             <form id="player-form">
                 <input type="text" id="playerName" placeholder="Player Full Name" required>
-                <input type="text" id="playerPosition" placeholder="Position (e.g. Center Forward)" required>
+                
+                <select id="playerPosition" required>
+                    <option value="" disabled selected>Select Main Position Group</option>
+                    <option value="Forward">Forward / Winger / Striker</option>
+                    <option value="Midfielder">Midfielder (CM, DM, AM)</option>
+                    <option value="Defender">Defender (CB, LB, RB)</option>
+                    <option value="Goalkeeper">Goalkeeper (GK)</option>
+                </select>
+
                 <input type="text" id="playerClub" placeholder="Current Club / Academy" required>
                 
                 <select id="playerAge">
