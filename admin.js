@@ -50,7 +50,7 @@ if (playerForm) {
         try {
             await addDoc(collection(db, "players"), {
                 name: document.getElementById('playerName').value.trim(),
-                position: document.getElementById('playerPosition').value.trim(),
+                position: document.getElementById('playerPosition').value, // Reads selected dropdown group
                 club: document.getElementById('playerClub').value.trim(),
                 age: document.getElementById('playerAge').value,
                 timestamp: new Date()
@@ -74,7 +74,6 @@ if (btnLoadRoster) {
         
         list.innerHTML = "Loading...";
         try {
-            // Using a structured fallback block in case Firebase Index is building
             let snap;
             try {
                 snap = await getDocs(query(collection(db, "players"), orderBy("timestamp", "desc")));
