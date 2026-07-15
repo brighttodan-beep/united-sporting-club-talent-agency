@@ -6,6 +6,117 @@
     <title>United Sporting Club | Talent Agency</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Styling for the new search and filter controls */
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            padding: 20px;
+            background: #fdfdfd;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        .filter-input, .filter-select {
+            padding: 10px 15px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fff;
+            color: #333;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .filter-input {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+        .filter-input:focus, .filter-select:focus {
+            border-color: #c5a028;
+            box-shadow: 0 0 5px rgba(197, 160, 40, 0.2);
+        }
+        .talent-card {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .talent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        /* Styling for the Click-to-Expand Detailed Player Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 10, 26, 0.85);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: #fff;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 12px;
+            border-top: 6px solid #c5a028;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            color: #999;
+            cursor: pointer;
+            border: none;
+            background: none;
+            transition: color 0.3s ease;
+        }
+        .modal-close:hover {
+            color: #ff4d4d;
+        }
+        .modal-avatar {
+            background: #f4f4f4;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #f0f0f0;
+        }
+    </style>
 </head>
 <body>
 
@@ -60,9 +171,39 @@
 
     <section id="talent">
         <h2 class="section-title">Verified Prospects</h2>
-        <div id="player-grid" class="grid">
+
+        <div class="filter-container">
+            <div class="filter-group">
+                <input type="text" id="search-bar" class="filter-input" placeholder="🔍 Search player by name...">
+                
+                <select id="filter-position" class="filter-select">
+                    <option value="all">All Positions</option>
+                    <option value="Forward">Forwards / Wingers</option>
+                    <option value="Midfield">Midfielders</option>
+                    <option value="Defender">Defenders</option>
+                    <option value="Goalkeeper">Goalkeepers</option>
+                </select>
+
+                <select id="filter-age" class="filter-select">
+                    <option value="all">All Age Groups</option>
+                    <option value="U17">U17 Category</option>
+                    <option value="U19">U19 Category</option>
+                    <option value="U22">U22 Category</option>
+                    <option value="Senior">Senior Category</option>
+                </select>
             </div>
+        </div>
+
+        <div id="player-grid" class="grid"></div>
     </section>
+
+    <div id="player-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="modal-close-btn" class="modal-close">&times;</button>
+            <div id="modal-body">
+                </div>
+        </div>
+    </div>
 
     <section id="contact">
         <div class="contact-container">
